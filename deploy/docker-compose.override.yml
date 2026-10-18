@@ -1,0 +1,5 @@
+# Goes in /opt/mailcow-dockerized/ — merge with any override file already there.
+services:
+  nginx-mailcow:
+    volumes:
+      - /srv/lndc-website:/lndc-site:ro

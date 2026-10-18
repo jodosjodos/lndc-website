@@ -1,0 +1,129 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { photos } from '../data/photos';
+import { combinations, school } from '../data/site';
+import { references } from '../data/press';
+
+const steps = [
+  {
+    title: 'Sit the national examination',
+    text: 'Pupils joining Senior One sit the Primary Leaving Examination. Students joining Senior Four sit the O-Level national examination.',
+  },
+  {
+    title: 'Choose your schools',
+    text: 'Candidates list their preferred schools. To study with us, choose Lycée Notre-Dame de Cîteaux, Nyarugenge District, Kigali.',
+  },
+  {
+    title: 'NESA places students',
+    text: 'NESA allocates places in Senior One and Senior Four using three things: exam results, the capacity of each school, and the choices students made.',
+  },
+  {
+    title: 'Report to LNDC',
+    text: 'Girls placed at LNDC receive their placement through NESA. For reporting dates and what to bring, write to the school office.',
+  },
+];
+
+const faqs = [
+  { q: 'Is LNDC a girls-only school?', a: 'Yes. Lycée Notre-Dame de Cîteaux is a secondary school for girls.' },
+  { q: 'Is LNDC a boarding school?', a: 'Yes. Our students board on campus in Kiyovu, Nyarugenge District, Kigali.' },
+  { q: 'Which levels do you offer?', a: 'Both Ordinary Level (Senior 1 to 3) and Advanced Level (Senior 4 to 6).' },
+  {
+    q: 'Which A-Level combinations are available?',
+    a: `${combinations.map((c) => `${c.code} (${c.name})`).join(', ')}, as listed by NESA.`,
+  },
+  {
+    q: 'Can the school admit a student directly into S1 or S4?',
+    a: 'No. By law, placement into Senior One and Senior Four is managed by NESA, and placements made outside that system are not valid.',
+  },
+  {
+    q: 'What about transfers into other classes?',
+    a: `Please contact the school office at ${school.email} or ${school.phone.display} to ask about places and requirements.`,
+  },
+];
+---
+
+<Base
+  title="Admissions"
+  description="How to join Lycée Notre-Dame de Cîteaux: national examinations, NESA placement into Senior One and Senior Four, and how to contact the school."
+  overlayHeader
+>
+  <PageHero
+    eyebrow="Admissions"
+    title="Your path to LNDC"
+    intro="Places in Senior One and Senior Four are allocated nationally by NESA. Here is how it works, step by step."
+    photo={photos.classSmile}
+  />
+
+  <section class="container-x py-24 md:py-32">
+    <SectionHeading eyebrow="How it works" title="Four steps to joining us" class="mb-14" />
+    <ol class="grid gap-5 md:grid-cols-2 lg:grid-cols-4" data-stagger>
+      {
+        steps.map((s, i) => (
+          <li class="relative flex flex-col rounded-3xl bg-brand-50 p-7 ring-1 ring-brand-100">
+            <span class="grid h-12 w-12 place-items-center rounded-full bg-brand-600 font-display text-xl text-white">{i + 1}</span>
+            <h3 class="mt-6 text-2xl text-ink">{s.title}</h3>
+            <p class="mt-3 leading-relaxed text-ink-soft">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-8 text-sm text-ink-soft" data-reveal>
+      Sources:
+      <a href={references.nesaPlacement} class="underline underline-offset-2 hover:text-brand-700" rel="noopener" target="_blank">National Examination and School Inspection Authority (NESA)</a>,
+      <a href={references.nesaLaw} class="underline underline-offset-2 hover:text-brand-700" rel="noopener" target="_blank">KT Press</a>
+    </p>
+  </section>
+
+  <section class="bg-mist py-24 md:py-32">
+    <div class="container-x grid gap-14 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+      <div>
+        <SectionHeading eyebrow="Questions" title="Frequently asked" intro="Can't find your answer? The school office will be glad to help." />
+        <div class="mt-8 rounded-3xl bg-white p-7 ring-1 ring-brand-100" data-reveal>
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">School office</p>
+          <a href={`mailto:${school.email}`} class="mt-3 block font-display text-2xl text-ink hover:text-brand-700">{school.email}</a>
+          <a href={school.phone.href} class="mt-1 block text-lg text-ink-soft hover:text-brand-700">{school.phone.display}</a>
+          <p class="mt-3 text-ink-soft">{school.poBox}, {school.city}</p>
+        </div>
+      </div>
+      <div class="divide-y divide-brand-100 overflow-hidden rounded-3xl bg-white ring-1 ring-brand-100" data-reveal>
+        {
+          faqs.map((f, i) => (
+            <details class="faq group px-6 md:px-8" open={i === 0}>
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg font-semibold text-ink">
+                {f.q}
+                <span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-700 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 1v12M1 7h12" /></svg>
+                </span>
+              </summary>
+              <p class="-mt-2 pb-6 leading-relaxed text-ink-soft">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="container-x py-24 md:py-28">
+    <div class="relative isolate overflow-hidden rounded-[2rem] bg-brand-950 px-7 py-14 text-white md:px-16 md:py-16" data-reveal>
+      <svg class="absolute -right-10 -top-10 -z-10 h-[140%] w-auto text-brand-500/15" viewBox="0 0 100 88" aria-hidden="true">
+        <path d="M50 2 L98 86 L2 86 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+      <div class="grid items-center gap-8 md:grid-cols-[1.5fr_1fr]">
+        <div>
+          <h2 class="text-[clamp(2rem,4vw,3rem)] text-white">Want to visit or ask a question?</h2>
+          <p class="mt-4 text-lg text-brand-100/85">Write or call the school office, or find us on the map in Kiyovu.</p>
+        </div>
+        <div class="flex flex-wrap gap-3 md:justify-end">
+          <a href="/contact" class="btn btn-light">Contact &amp; map</a>
+          <a href={school.phone.href} class="btn btn-ghost">Call us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .faq summary::-webkit-details-marker { display: none; }
+</style>

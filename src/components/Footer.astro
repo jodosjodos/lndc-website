@@ -1,0 +1,61 @@
+---
+import Logo from './Logo.astro';
+import { nav, school } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative overflow-hidden bg-brand-950 text-brand-100/80">
+  <div class="pointer-events-none absolute -right-24 -top-10 h-[34rem] w-[34rem] text-white/[0.035]" aria-hidden="true">
+    <svg viewBox="0 0 100 88" class="h-full w-full"><path d="M50 2 L98 86 L2 86 Z" fill="none" stroke="currentColor" stroke-width="3"></path></svg>
+  </div>
+  <div class="container-x relative grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:py-20">
+    <div>
+      <a href="/" class="inline-flex items-center gap-3 text-white">
+        <Logo class="h-14 w-auto text-brand-400" title="" />
+        <span class="font-display text-xl font-semibold leading-tight">Lycée Notre-Dame<br />de Cîteaux</span>
+      </a>
+      <p class="mt-5 max-w-sm leading-relaxed">
+        A Catholic boarding school for girls in the heart of Kigali, owned by the Bernardine Sisters.
+      </p>
+      <p class="mt-5 font-display text-lg italic text-white" lang="rw">“{school.motto.rw}”</p>
+      <p class="text-sm text-brand-200/70">{school.motto.en}</p>
+    </div>
+
+    <div>
+      <h2 class="font-sans text-sm font-bold uppercase tracking-[0.16em] text-white">Explore</h2>
+      <ul class="mt-5 space-y-2.5">
+        {nav.map((item) => <li><a href={item.href} class="hover:text-white">{item.label}</a></li>)}
+        <li><a href="/contact" class="hover:text-white">Contact</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="font-sans text-sm font-bold uppercase tracking-[0.16em] text-white">Visit</h2>
+      <address class="mt-5 space-y-1 not-italic leading-relaxed">
+        <p>{school.name}</p>
+        <p>{school.area}</p>
+        <p>{school.poBox}, {school.city}</p>
+      </address>
+    </div>
+
+    <div>
+      <h2 class="font-sans text-sm font-bold uppercase tracking-[0.16em] text-white">Get in touch</h2>
+      <a href={`mailto:${school.email}`} class="mt-5 inline-block font-display text-2xl text-white hover:text-brand-300">{school.email}</a>
+      <a href={school.phone.href} class="mt-2 block text-lg text-white/90 hover:text-white">{school.phone.display}</a>
+      <a href={school.x.url} class="mt-4 flex items-center gap-2.5 hover:text-white" rel="noopener" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22h-7l-5.5-7.2L4.5 22H1.4l8.1-9.3L1 2h7.2l5 6.6L18.9 2Zm-1.2 18h1.7L6.4 3.9H4.6L17.7 20Z"></path></svg>
+        <span>{school.x.handle} on X</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-x flex flex-col gap-3 py-6 text-sm md:flex-row md:items-center md:justify-between">
+      <p>© {year} {school.name}. All rights reserved.</p>
+      <p class="text-brand-100/60">
+        Photographs courtesy of Imbuto Foundation, Rwanda Defence Force and Wikimedia Commons. <a href="/gallery#credits" class="underline underline-offset-2 hover:text-white">Photo credits</a>
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,241 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Photo from '../components/Photo.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import StatBand from '../components/StatBand.astro';
+import ValueGrid from '../components/ValueGrid.astro';
+import NewsCard from '../components/NewsCard.astro';
+import CTA from '../components/CTA.astro';
+import { photos } from '../data/photos';
+import { combinations } from '../data/site';
+import { sources, references } from '../data/press';
+
+const facts = [
+  { label: 'Girls only', sub: 'Boarding school' },
+  { label: 'O-Level & A-Level', sub: 'Senior 1 to Senior 6' },
+  { label: 'Bernardine Sisters', sub: 'Catholic, Cistercian family' },
+  { label: 'Kiyovu, Kigali', sub: 'Nyarugenge District' },
+];
+
+const life = [
+  { photo: photos.culturalDance, title: 'Culture & dance', text: 'Traditional Rwandan dance, performed with pride on the Great Hall stage.', href: '/student-life#culture' },
+  { photo: photos.hallAudience, title: 'Mentors & speakers', text: 'Women leaders and Best Performing Girls alumnae visit to mentor students.', href: '/student-life#mentorship' },
+  { photo: photos.studentsClapping, title: 'Voice & debate', text: 'National champions in English public speaking, and competitors in debate.', href: '/student-life#voice' },
+  { photo: photos.bpgSign, title: 'Celebrating success', text: 'Girls who excel are recognised, at school and across the nation.', href: '/student-life#celebrations' },
+];
+
+const strip = [photos.classRow, photos.bpgCheer, photos.greatHall, photos.classPair, photos.culturalDance, photos.classSmile, photos.bpgStudents, photos.studentPortrait];
+const latest = sources.filter((s) => s.kind === 'article').slice(0, 3);
+---
+
+<Base overlayHeader>
+  <Hero slides={[photos.culturalDance, photos.classApplause, photos.greatHallAbove]} />
+
+  <!-- Quick facts -->
+  <section class="container-x relative z-10 -mt-14">
+    <ul class="grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-brand-100 shadow-[0_30px_80px_-40px_rgb(10_37_64/0.45)] lg:grid-cols-4" data-stagger>
+      {
+        facts.map((f) => (
+          <li class="flex items-center gap-4 bg-white px-4 py-5 sm:px-5 sm:py-6 md:px-7">
+            <svg class="hidden h-6 w-6 shrink-0 text-brand-500 sm:block" viewBox="0 0 100 88" aria-hidden="true">
+              <path d="M50 6 L95 84 L5 84 Z" fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round" />
+            </svg>
+            <span>
+              <span class="block font-display text-[1.12rem] font-semibold leading-tight text-ink">{f.label}</span>
+              <span class="mt-0.5 block text-sm text-ink-soft">{f.sub}</span>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Welcome -->
+  <section class="container-x grid items-center gap-14 py-24 md:py-32 lg:grid-cols-2 lg:gap-20">
+    <div class="relative order-2 lg:order-1">
+      <div class="aspect-[4/5] overflow-hidden rounded-[1.75rem]" data-clip-reveal>
+        <div class="h-[112%] w-full" data-parallax="10">
+          <Photo photo={photos.studentPortrait} class="h-full" sizes="(min-width: 1024px) 40vw, 100vw" />
+        </div>
+      </div>
+      <div class="absolute -bottom-8 right-4 w-[min(20rem,78%)] rounded-3xl bg-white p-6 shadow-[0_30px_70px_-30px_rgb(10_37_64/0.5)] sm:-right-6" data-reveal>
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Alumna</p>
+        <p class="mt-2 font-display text-xl leading-snug text-ink">Agathe Uwilingiyimana, Rwanda's first woman Prime Minister, spent seven years at LNDC.</p>
+        <a href={references.agathe} class="mt-3 inline-block text-xs text-ink-soft underline underline-offset-2" rel="noopener" target="_blank">Source: Wikipedia</a>
+      </div>
+    </div>
+
+    <div class="order-1 lg:order-2">
+      <SectionHeading
+        eyebrow="Welcome to LNDC"
+        title="A school with a long story of excellence"
+      />
+      <div class="prose-lndc mt-6 max-w-xl text-lg leading-relaxed text-ink-soft" data-reveal>
+        <p>
+          For generations, Rwandan girls have come to Lycée Notre-Dame de Cîteaux to learn, to pray and to grow together. The school belongs to
+          the Bernardine Sisters, a Catholic congregation of the Cistercian family whose name it carries.
+        </p>
+        <p>
+          LNDC is known across the country for discipline and strong results. The New Times once called it a
+          <a href={sources.find((s) => s.id === 'model-school-2008')!.url} rel="noopener" target="_blank">“significant role model school”</a>, and our
+          students keep proving it in national examinations and competitions.
+        </p>
+      </div>
+      <a href="/about" class="link-arrow mt-8" data-reveal>
+        Our story
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+  </section>
+
+  <StatBand />
+
+  <!-- Values -->
+  <section class="container-x py-24 md:py-32">
+    <SectionHeading
+      eyebrow="What we stand for"
+      title="Seven values, one way of life"
+      intro="Respect, cooperation and excellence are not slogans at LNDC. They are the commitments every member of the community is asked to live by."
+      class="mb-14"
+    />
+    <ValueGrid />
+  </section>
+
+  <!-- Academics -->
+  <section class="bg-mist py-24 md:py-32">
+    <div class="container-x grid items-center gap-14 lg:grid-cols-[1fr_1.05fr] lg:gap-20">
+      <div>
+        <SectionHeading
+          eyebrow="Academics"
+          title="Two levels, one standard of excellence"
+          intro="From Senior One to Senior Six, LNDC follows Rwanda's national curriculum and prepares every girl for the national examinations."
+        />
+        <div class="mt-10 grid gap-4 sm:grid-cols-2" data-stagger>
+          <div class="rounded-3xl bg-white p-6 ring-1 ring-brand-100">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Ordinary Level</p>
+            <p class="mt-2 font-display text-2xl text-ink">Senior 1–3</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-soft">A broad, strong foundation across the national curriculum.</p>
+          </div>
+          <div class="rounded-3xl bg-white p-6 ring-1 ring-brand-100">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Advanced Level</p>
+            <p class="mt-2 font-display text-2xl text-ink">Senior 4–6</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              {combinations.map((c) => <span class="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700" title={c.name}>{c.code}</span>)}
+            </div>
+          </div>
+        </div>
+        <a href="/academics" class="link-arrow mt-9" data-reveal>
+          Explore academics
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+      <div class="aspect-[5/4] overflow-hidden rounded-[1.75rem]" data-clip-reveal>
+        <div class="h-[112%] w-full" data-parallax="10">
+          <Photo photo={photos.classroomFocus} class="h-full" sizes="(min-width: 1024px) 50vw, 100vw" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Student life -->
+  <section class="container-x py-24 md:py-32">
+    <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <SectionHeading eyebrow="Student life" title="More than a classroom" />
+      <a href="/student-life" class="link-arrow shrink-0" data-reveal>
+        Life at LNDC
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+      {
+        life.map((card) => (
+          <a href={card.href} class="group relative isolate flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-3xl p-6 text-white">
+            <Photo photo={card.photo} class="absolute inset-0 -z-10" imgClass="transition-transform duration-[1.2s] ease-out group-hover:scale-105" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-brand-950/90 via-brand-950/30 to-transparent" />
+            <h3 class="text-2xl text-white">{card.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-white/85">{card.text}</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="relative isolate overflow-hidden bg-brand-950 py-24 text-white md:py-32">
+    <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+      <div class="on-dark">
+        <p class="eyebrow" data-reveal>Our story</p>
+        <h2 class="mt-4 text-[clamp(2rem,4.2vw,3.4rem)] text-white" data-split>Courage in the darkest days</h2>
+        <p class="mt-6 text-lg leading-relaxed text-brand-100/85" data-reveal>
+          In 1994, during the Genocide against the Tutsi, Sister Hélène Nayituriki, an LNDC alumna and teacher, protected more than 150 students,
+          teachers and neighbours. In 1997 she became headmistress and helped the school rebuild around one simple truth.
+        </p>
+        <blockquote class="mt-10 border-l-2 border-brand-400 pl-6" data-reveal>
+          <p class="font-display text-[clamp(1.6rem,3vw,2.3rem)] leading-snug text-white">“We don’t have ethnic groups at school, we have students.”</p>
+          <footer class="mt-4 text-sm text-brand-200">
+            Sr. Hélène Nayituriki, in
+            <a href={sources.find((s) => s.id === 'gsr-helene-2022')!.url} class="underline underline-offset-2 hover:text-white" rel="noopener" target="_blank">Global Sisters Report</a>
+          </footer>
+        </blockquote>
+        <a href="/about#story" class="link-arrow mt-10 !text-brand-200 hover:!text-white" data-reveal>
+          Read the history
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+      <div>
+        <div class="aspect-[4/3] overflow-hidden rounded-[1.75rem]" data-clip-reveal>
+          <Photo photo={photos.kwibukaWalk} class="h-full" sizes="(min-width: 1024px) 45vw, 100vw" />
+        </div>
+        <p class="mt-3 text-sm text-brand-100/60">{photos.kwibukaWalk.caption}. Photo: {photos.kwibukaWalk.credit.name}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Photo strip -->
+  <section class="overflow-hidden py-24 md:py-28" aria-label="Photos from school life">
+    <div class="container-x mb-12 flex items-end justify-between gap-6">
+      <SectionHeading eyebrow="Gallery" title="Moments at LNDC" />
+      <a href="/gallery" class="link-arrow shrink-0" data-reveal>
+        View gallery
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+    <div class="marquee flex w-max gap-5">
+      {
+        [...strip, ...strip].map((p, i) => (
+          <a href="/gallery" class="block h-56 w-80 shrink-0 overflow-hidden rounded-2xl md:h-72 md:w-[26rem]" tabindex={i >= strip.length ? -1 : undefined} aria-hidden={i >= strip.length ? 'true' : undefined}>
+            <Photo photo={p} class="h-full" sizes="420px" widths={[480, 800]} />
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- News -->
+  <section class="bg-mist py-24 md:py-32">
+    <div class="container-x">
+      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+        <SectionHeading eyebrow="In the news" title="LNDC in the headlines" />
+        <a href="/news" class="link-arrow shrink-0" data-reveal>
+          All news
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+      <div class="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3" data-stagger>
+        {latest.map((item) => <NewsCard item={item} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<style>
+  .marquee { animation: marquee 60s linear infinite; }
+  .marquee:hover { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(calc(-50% - 0.625rem)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee { animation: none; flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-inline: 1rem; }
+  }
+</style>

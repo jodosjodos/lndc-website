@@ -1,0 +1,132 @@
+---
+import { Picture } from 'astro:assets';
+import type { Photo } from '../data/photos';
+
+interface Props {
+  slides: Photo[];
+}
+const { slides } = Astro.props;
+---
+
+<section data-hero class="hero relative isolate flex min-h-[100svh] items-end overflow-hidden bg-brand-950 text-white">
+  <div class="absolute inset-0 -z-10" aria-hidden="true">
+    {
+      slides.map((s, i) => (
+        <div class:list={['hero-slide absolute inset-0', i === 0 && 'is-active']} data-slide={i}>
+          <Picture
+            src={s.src}
+            alt=""
+            formats={['avif', 'webp']}
+            widths={[768, 1280, 1920, 2560].filter((w) => w <= s.src.width)}
+            sizes="100vw"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+            class="hero-img h-full w-full object-cover"
+            style={s.focus ? `object-position: ${s.focus}` : undefined}
+          />
+        </div>
+      ))
+    }
+    <div class="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/55 to-brand-950/25"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-brand-950/70 via-brand-950/10 to-transparent"></div>
+  </div>
+
+  <svg class="hero-triangle pointer-events-none absolute -right-[12vw] top-[8vh] -z-10 h-[90vh] w-auto text-brand-300/25" viewBox="0 0 100 88" aria-hidden="true">
+    <path d="M50 2 L98 86 L2 86 Z" fill="none" stroke="currentColor" stroke-width="0.6"></path>
+  </svg>
+
+  <div class="container-x relative pb-36 pt-36 md:pb-40">
+    <div class="max-w-[52rem]">
+      <p class="eyebrow on-dark" data-reveal>Catholic girls' secondary school · Kigali</p>
+      <h1 class="mt-5 text-[clamp(2.6rem,5.2vw,4.7rem)] font-[520] leading-[1.03] text-white" data-split>
+        Raising young women of faith, knowledge and character
+      </h1>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-brand-50/90 md:text-xl" data-reveal data-reveal-delay="0.1">
+        Lycée Notre-Dame de Cîteaux is a boarding school for girls in Kiyovu, owned by the Bernardine Sisters, with O-Level and A-Level studies.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3" data-reveal data-reveal-delay="0.2">
+        <a href="/about" class="btn btn-light">
+          Discover LNDC
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="/admissions" class="btn btn-ghost">How to join</a>
+      </div>
+    </div>
+
+    <div class="absolute bottom-24 right-[clamp(1rem,4vw,2.5rem)] hidden items-end gap-5 lg:flex" data-reveal data-reveal-delay="0.35">
+      <p class="hero-caption max-w-[21rem] text-right text-xs leading-relaxed text-white/70" aria-live="polite">
+        {slides.map((s, i) => (
+          <span class:list={['hero-cap block', i === 0 && 'is-active']} data-cap={i}>
+            {s.caption} · Photo: {s.credit.name}
+          </span>
+        ))}
+      </p>
+      <div class="flex items-center gap-2">
+        {
+          slides.map((s, i) => (
+            <button type="button" class:list={['hero-dot', i === 0 && 'is-active']} data-go={i} aria-label={`Show photo ${i + 1}: ${s.caption}`}>
+              <span></span>
+            </button>
+          ))
+        }
+        <button type="button" class="hero-pause ml-1 grid h-8 w-8 place-items-center rounded-full ring-1 ring-white/40 hover:bg-white/10" aria-label="Pause slideshow" data-pause>
+          <svg class="icon-pause" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><rect x="2" y="1" width="3" height="10" rx="1"></rect><rect x="7" y="1" width="3" height="10" rx="1"></rect></svg>
+          <svg class="icon-play hidden" width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M3 1.5v9l7.5-4.5z"></path></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-slide { opacity: 0; transition: opacity 1.6s ease; }
+  .hero-slide.is-active { opacity: 1; }
+  .hero-slide.is-active .hero-img { animation: var(--animate-kenburns); }
+  .hero-cap { display: none; }
+  .hero-cap.is-active { display: block; }
+  .hero-dot { width: 2.6rem; padding: 0.8rem 0; }
+  .hero-dot span { display: block; height: 3px; border-radius: 3px; background: rgb(255 255 255 / 0.3); overflow: hidden; position: relative; }
+  .hero-dot span::after { content: ''; position: absolute; inset: 0; background: #fff; transform-origin: left; transform: scaleX(0); }
+  .hero-dot.is-active span::after { animation: fill var(--hero-interval, 7s) linear forwards; }
+  .hero.is-paused .hero-dot.is-active span::after { animation: none; transform: scaleX(1); }
+  .hero.is-paused .hero-img { animation-play-state: paused !important; }
+  @keyframes fill { to { transform: scaleX(1); } }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const slides = [...hero.querySelectorAll<HTMLElement>('[data-slide]')];
+    const caps = [...hero.querySelectorAll<HTMLElement>('[data-cap]')];
+    const dots = [...hero.querySelectorAll<HTMLButtonElement>('[data-go]')];
+    const pause = hero.querySelector<HTMLButtonElement>('[data-pause]')!;
+    const interval = 7000;
+    let index = 0;
+    let timer: number | undefined;
+    // Auto-advance stays off for reduced motion, and the pause button satisfies WCAG 2.2.2.
+    let paused = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const show = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      [slides, caps, dots].forEach((list) => list.forEach((el, k) => el.classList.toggle('is-active', k === index)));
+    };
+    const schedule = () => {
+      window.clearInterval(timer);
+      if (!paused) timer = window.setInterval(() => show(index + 1), interval);
+    };
+    const setPaused = (p: boolean) => {
+      paused = p;
+      hero.classList.toggle('is-paused', p);
+      pause.setAttribute('aria-label', p ? 'Play slideshow' : 'Pause slideshow');
+      pause.querySelector('.icon-pause')!.classList.toggle('hidden', p);
+      pause.querySelector('.icon-play')!.classList.toggle('hidden', !p);
+      schedule();
+    };
+
+    hero.style.setProperty('--hero-interval', `${interval}ms`);
+    dots.forEach((d) => d.addEventListener('click', () => { show(Number(d.dataset.go)); schedule(); }));
+    pause.addEventListener('click', () => setPaused(!paused));
+    document.addEventListener('visibilitychange', () => (document.hidden ? window.clearInterval(timer) : schedule()));
+    setPaused(paused);
+  }
+</script>

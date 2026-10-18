@@ -1,0 +1,181 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ValueGrid from '../components/ValueGrid.astro';
+import Logo from '../components/Logo.astro';
+import CTA from '../components/CTA.astro';
+import { photos } from '../data/photos';
+import { school } from '../data/site';
+import { milestones } from '../data/achievements';
+import { byId, references } from '../data/press';
+
+const gsr = byId('gsr-helene-2022');
+const kwibuka = byId('kwibuka31');
+---
+
+<Base
+  title="About"
+  description="The story of Lycée Notre-Dame de Cîteaux: a Bernardine Sisters school for girls in Kigali, known for faith, discipline and excellence."
+  overlayHeader
+>
+  <PageHero
+    eyebrow="About LNDC"
+    title="Faith, courage and excellence, for generations"
+    intro="Lycée Notre-Dame de Cîteaux is a Catholic boarding school for girls in Kiyovu, Kigali, owned by the Bernardine Sisters."
+    photo={photos.greatHallAbove}
+  />
+
+  <!-- Identity -->
+  <section class="container-x grid gap-14 py-24 md:py-32 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
+    <div>
+      <SectionHeading eyebrow="Who we are" title="A Bernardine school in the heart of Kigali" />
+      <div class="prose-lndc mt-7 max-w-2xl text-lg leading-relaxed text-ink-soft" data-reveal>
+        <p>
+          Our school takes its name from the
+          <a href={references.citeaux} rel="noopener" target="_blank">Abbey of Cîteaux</a> in Burgundy, France, founded in 1098 as the mother house of
+          the Cistercian order. LNDC is owned by the Bernardine Sisters, a Catholic congregation of the Cistercian family. Bernardine communities
+          <a href={references.bernardines} rel="noopener" target="_blank">are known for their work as teachers</a>, in Belgium and across Africa.
+        </p>
+        <p>
+          We are a girls' boarding school, so students live, study and pray together on our campus in Kiyovu, Nyarugenge District, close to the centre
+          of Kigali. LNDC offers both Ordinary Level and Advanced Level and prepares every student for Rwanda's national examinations.
+        </p>
+      </div>
+    </div>
+
+    <aside class="flex flex-col gap-5 lg:pt-16" data-stagger>
+      <div class="relative overflow-hidden rounded-3xl bg-brand-950 p-8 text-white">
+        <Logo class="absolute -bottom-6 -right-6 h-40 w-auto text-brand-500/25" title="" />
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-300">Our motto</p>
+        <p class="mt-4 font-display text-4xl italic" lang="rw">{school.motto.rw}</p>
+        <p class="mt-2 text-lg text-brand-100/85">{school.motto.en}</p>
+        <p class="mt-6 max-w-xs text-sm text-brand-100/60">Embroidered beneath the LNDC triangle on every student's uniform.</p>
+      </div>
+      <div class="rounded-3xl bg-brand-50 p-8 ring-1 ring-brand-100">
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Head Teacher</p>
+        <p class="mt-3 font-display text-3xl text-ink">{school.headTeacher}</p>
+        <p class="mt-2 text-sm text-ink-soft">Lycée Notre-Dame de Cîteaux</p>
+      </div>
+      <div class="rounded-3xl bg-brand-50 p-8 ring-1 ring-brand-100">
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Our emblem</p>
+        <p class="mt-3 leading-relaxed text-ink-soft">
+          The LNDC triangle and open book, stitched on the white uniform shirt that our students wear with a khaki skirt.
+        </p>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Story -->
+  <section id="story" class="relative isolate overflow-hidden bg-brand-950 py-24 text-white md:py-32">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Our story"
+        title="Written by the women who walked these halls"
+        intro="Some of the most important chapters of Rwanda's history were lived, in part, at LNDC."
+        dark
+      />
+
+      <div class="mt-16 grid gap-14 lg:grid-cols-2 lg:gap-20">
+        <article data-reveal>
+          <p class="font-display text-6xl text-brand-400">1960s</p>
+          <h3 class="mt-4 text-3xl text-white">A future Prime Minister</h3>
+          <p class="mt-4 text-lg leading-relaxed text-brand-100/85">
+            Agathe Uwilingiyimana enrolled at LNDC as a girl from the south of the country and spent seven years here, at a time when it was counted
+            among the best secondary schools in Rwanda. She went on to become the first woman to serve as Prime Minister of Rwanda.
+          </p>
+          <p class="mt-4 text-sm text-brand-200/70">
+            Sources: <a href={references.agathe} class="underline underline-offset-2 hover:text-white" rel="noopener" target="_blank">Wikipedia</a>,
+            <a href={references.agatheNewTimes} class="underline underline-offset-2 hover:text-white" rel="noopener" target="_blank">The New Times</a>
+          </p>
+        </article>
+
+        <article data-reveal>
+          <p class="font-display text-6xl text-brand-400">1994</p>
+          <h3 class="mt-4 text-3xl text-white">Courage in the darkest days</h3>
+          <p class="mt-4 text-lg leading-relaxed text-brand-100/85">
+            During the Genocide against the Tutsi, Sister Hélène Nayituriki, herself an alumna and then a teacher at LNDC, protected more than 150
+            students, teachers and neighbours who had taken refuge at the school. In 2007 Rwanda honoured her with a national medal.
+          </p>
+          <p class="mt-4 text-sm text-brand-200/70">
+            Sources: <a href={gsr.url} class="underline underline-offset-2 hover:text-white" rel="noopener" target="_blank">Global Sisters Report</a>,
+            <a href={references.helene} class="underline underline-offset-2 hover:text-white" rel="noopener" target="_blank">Wikipedia</a>
+          </p>
+        </article>
+      </div>
+
+      <figure class="mx-auto mt-20 max-w-4xl text-center" data-reveal>
+        <blockquote class="font-display text-[clamp(1.8rem,3.6vw,3rem)] leading-snug text-white">
+          “We don’t have ethnic groups at school, we have students.”
+        </blockquote>
+        <figcaption class="mt-5 text-brand-200">Sr. Hélène Nayituriki, headmistress from 1997</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="container-x py-24 md:py-32">
+    <SectionHeading eyebrow="Milestones" title="From Cîteaux to Kiyovu" align="center" class="mb-16" />
+    <ol class="relative mx-auto max-w-4xl">
+      <span class="absolute bottom-2 left-[1.15rem] top-2 w-px bg-brand-200 md:left-1/2" aria-hidden="true"></span>
+      {
+        milestones.map((m, i) => (
+          <li class:list={['relative mb-12 pl-14 last:mb-0 md:w-1/2', i % 2 === 0 ? 'md:pl-0 md:pr-14 md:text-right' : 'md:ml-auto md:pl-14']} data-reveal>
+            <span
+              class:list={['absolute left-0 top-1.5 grid h-9 w-9 place-items-center rounded-full bg-white ring-4 ring-brand-100', i % 2 === 0 ? 'md:left-auto md:-right-[1.125rem]' : 'md:-left-[1.125rem]']}
+              aria-hidden="true"
+            >
+              <svg class="h-3.5 w-3.5 text-brand-500" viewBox="0 0 100 88"><path d="M50 2 L98 86 L2 86 Z" fill="currentColor" /></svg>
+            </span>
+            <p class="font-display text-2xl text-brand-600">{m.year}</p>
+            <h3 class="mt-1 text-xl text-ink">{m.title}</h3>
+            <p class="mt-2 leading-relaxed text-ink-soft">{m.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Values -->
+  <section class="bg-mist py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Our values"
+        title="Tugomba twese — we must all"
+        intro="Seven commitments, displayed on our campus in Kinyarwanda, describe the kind of community LNDC wants to be."
+        class="mb-14"
+      />
+      <ValueGrid />
+    </div>
+  </section>
+
+  <!-- Remembrance -->
+  <section id="remembrance" class="container-x py-24 md:py-32">
+    <div class="grid items-start gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28">
+        <SectionHeading eyebrow="Kwibuka" title="We remember" />
+        <div class="prose-lndc mt-6 text-lg leading-relaxed text-ink-soft" data-reveal>
+          <p>
+            As a community that lived through 1994, LNDC holds remembrance close. During Kwibuka31, on 30 April 2025, students, Sisters, staff and guests,
+            including the Rwanda Defence Force spokesperson, came together to honour the victims of the 1994 Genocide against the Tutsi.
+          </p>
+          <p>
+            The students walked in procession, singing, and stood in silence in the Great Hall, renewing the promise that it will never happen again.
+          </p>
+        </div>
+        <a href={kwibuka.url} class="link-arrow mt-8" rel="noopener" target="_blank" data-reveal>
+          Photographs: Rwanda Defence Force
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg>
+        </a>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2" data-stagger>
+        <Photo photo={photos.kwibukaWalk} class="sm:col-span-2 [&_img]:aspect-[16/10] [&_img]:rounded-3xl" caption sizes="(min-width: 1024px) 55vw, 100vw" />
+        <Photo photo={photos.kwibukaSilence} class="[&_img]:aspect-[4/3] [&_img]:rounded-3xl" caption sizes="(min-width: 1024px) 27vw, 50vw" />
+        <Photo photo={photos.kwibukaGuests} class="[&_img]:aspect-[4/3] [&_img]:rounded-3xl" caption sizes="(min-width: 1024px) 27vw, 50vw" />
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>

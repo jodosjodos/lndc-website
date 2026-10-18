@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { photos } from '../data/photos';
+import { school } from '../data/site';
+
+const { lat, lon } = school.geo;
+const d = 0.004;
+const embed = `https://www.openstreetmap.org/export/embed.html?bbox=${lon - d}%2C${lat - d * 0.6}%2C${lon + d}%2C${lat + d * 0.6}&layer=mapnik&marker=${lat}%2C${lon}`;
+const osm = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=17/${lat}/${lon}`;
+const google = `https://www.google.com/maps/search/?api=1&query=${lat}%2C${lon}`;
+
+const cards = [
+  { label: 'Email', value: school.email, href: `mailto:${school.email}`, note: 'For admissions, parents and general enquiries' },
+  { label: 'Phone', value: school.phone.display, href: school.phone.href, note: 'School office' },
+  { label: 'Post', value: school.poBox, href: undefined, note: school.city },
+  { label: 'X (Twitter)', value: school.x.handle, href: school.x.url, note: 'News and announcements' },
+];
+---
+
+<Base title="Contact" description="Contact Lycée Notre-Dame de Cîteaux: email, phone, postal address and map of our campus in Kiyovu, Kigali." overlayHeader>
+  <PageHero
+    eyebrow="Contact"
+    title="We'd love to hear from you"
+    intro="Parents, students, alumnae and friends: write, call or come and find us in Kiyovu, Kigali."
+    photo={photos.classPair}
+  />
+
+  <section class="container-x py-24 md:py-32">
+    <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+      {
+        cards.map((c) => (
+          <li class="flex flex-col rounded-3xl bg-brand-50 p-7 ring-1 ring-brand-100">
+            <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">{c.label}</p>
+            {c.href ? (
+              <a href={c.href} class="mt-4 break-words font-display text-2xl text-ink hover:text-brand-700" {...(c.href.startsWith('http') ? { rel: 'noopener', target: '_blank' } : {})}>
+                {c.value}
+              </a>
+            ) : (
+              <p class="mt-4 font-display text-2xl text-ink">{c.value}</p>
+            )}
+            <p class="mt-2 text-sm text-ink-soft">{c.note}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-16 grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-14">
+      <div data-reveal>
+        <p class="eyebrow">Find us</p>
+        <h2 class="mt-4 text-[clamp(2rem,4vw,3rem)] text-ink">Kiyovu, Nyarugenge District</h2>
+        <address class="mt-5 text-lg not-italic leading-relaxed text-ink-soft">
+          {school.name}<br />
+          {school.area}<br />
+          {school.poBox}, {school.city}
+        </address>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={google} class="btn btn-primary" rel="noopener" target="_blank">Open in Google Maps</a>
+          <a href={osm} class="btn btn-outline" rel="noopener" target="_blank">OpenStreetMap</a>
+        </div>
+      </div>
+      <div class="overflow-hidden rounded-[1.75rem] ring-1 ring-brand-100" data-reveal>
+        <iframe
+          title="Map showing Lycée Notre-Dame de Cîteaux in Kiyovu, Kigali"
+          src={embed}
+          class="block h-[26rem] w-full md:h-[30rem]"
+          loading="lazy"
+          referrerpolicy="no-referrer"></iframe>
+      </div>
+    </div>
+  </section>
+</Base>

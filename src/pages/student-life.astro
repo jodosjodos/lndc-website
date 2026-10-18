@@ -1,0 +1,164 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Photo from '../components/Photo.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTA from '../components/CTA.astro';
+import { photos } from '../data/photos';
+import { byId } from '../data/press';
+
+const orator = byId('orator-2026');
+const money = byId('money-makeover-2024');
+const choir = byId('cmc-2025');
+const ict = byId('girls-ict-2013');
+const visit = byId('bpg-visit-2025');
+const awards = byId('bpg-awards-2026');
+const dance = byId('cultural-month-2023');
+
+const arrow = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg>`;
+---
+
+<Base
+  title="Student Life"
+  description="Boarding life, faith, culture, choir, debate, public speaking and mentorship at Lycée Notre-Dame de Cîteaux."
+  overlayHeader
+>
+  <PageHero
+    eyebrow="Student life"
+    title="A community that lives, learns and celebrates together"
+    intro="Beyond lessons, LNDC girls sing, dance, debate, speak, remember and celebrate, as one community."
+    photo={photos.bpgCheer}
+  />
+
+  <!-- Boarding & faith -->
+  <section id="boarding" class="container-x grid gap-5 py-24 md:grid-cols-2 md:py-32" data-stagger>
+    <article class="rounded-[1.75rem] bg-brand-50 p-8 ring-1 ring-brand-100 md:p-10">
+      <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Boarding</p>
+      <h2 class="mt-3 text-[clamp(1.9rem,3vw,2.6rem)] text-ink">A home in the heart of Kigali</h2>
+      <p class="mt-4 text-lg leading-relaxed text-ink-soft">
+        LNDC is a boarding school. Our students live together on campus in Kiyovu, sharing study time, meals and friendships, and learning to look
+        after one another in the spirit of <span lang="rw" class="font-semibold text-ink">gufashanya</span>.
+      </p>
+    </article>
+    <article id="faith" class="rounded-[1.75rem] bg-brand-950 p-8 text-white md:p-10">
+      <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-300">Faith</p>
+      <h2 class="mt-3 text-[clamp(1.9rem,3vw,2.6rem)] text-white">Rooted in the Gospel</h2>
+      <p class="mt-4 text-lg leading-relaxed text-brand-100/85">
+        As a Catholic school of the Bernardine Sisters, LNDC puts faith first: <span lang="rw" class="font-semibold text-white">Kubaha Imana</span>,
+        respect for God, opens our list of values, and our motto asks that everything be done in love.
+      </p>
+    </article>
+  </section>
+
+  <!-- Culture -->
+  <section id="culture" class="bg-mist py-24 md:py-32">
+    <div class="container-x grid items-center gap-14 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
+      <div class="aspect-[3/2] overflow-hidden rounded-[1.75rem]" data-clip-reveal>
+        <Photo photo={photos.culturalDance} class="h-full" sizes="(min-width: 1024px) 55vw, 100vw" />
+      </div>
+      <div>
+        <SectionHeading
+          eyebrow="Culture"
+          title="Proud of who we are"
+          intro="Our dancers perform traditional Rwandan dance on the Great Hall stage, beneath the national flag, as they did at the launch of cultural month in May 2023."
+        />
+        <a href={dance.url} class="link-arrow mt-7" rel="noopener" target="_blank" data-reveal>Photo on Wikimedia Commons <Fragment set:html={arrow} /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Voice -->
+  <section id="voice" class="container-x py-24 md:py-32">
+    <SectionHeading eyebrow="Voice" title="Speaking, singing, debating" intro="LNDC girls are heard on national stages." class="mb-14" />
+    <div class="grid gap-5 lg:grid-cols-3" data-stagger>
+      <article class="flex flex-col rounded-3xl bg-white p-8 ring-1 ring-brand-100">
+        <p class="font-display text-5xl text-brand-500">1st</p>
+        <h3 class="mt-4 text-2xl text-ink">ORATOR national English competition</h3>
+        <p class="mt-3 leading-relaxed text-ink-soft">
+          Anabella Mutara won the lower secondary category of the first ORATOR competition, held at BK Arena on 19 July 2026 and organised by the
+          Ministry of Education with REB and NESA.
+        </p>
+        <a href={orator.url} class="link-arrow mt-auto pt-6 text-sm" rel="noopener" target="_blank">Read on REB <Fragment set:html={arrow} /></a>
+      </article>
+      <article class="flex flex-col rounded-3xl bg-white p-8 ring-1 ring-brand-100">
+        <p class="font-display text-5xl text-brand-500">4th</p>
+        <h3 class="mt-4 text-2xl text-ink">CMC 2025 choral competition</h3>
+        <p class="mt-3 leading-relaxed text-ink-soft">
+          The LNDC choir placed fourth with their performance of <em>Rosas Pandan</em>, in the arrangement by G. G. Hernandez.
+        </p>
+        <a href={choir.url} class="link-arrow mt-auto pt-6 text-sm" rel="noopener" target="_blank">Watch the performance <Fragment set:html={arrow} /></a>
+      </article>
+      <article class="flex flex-col rounded-3xl bg-white p-8 ring-1 ring-brand-100">
+        <p class="font-display text-5xl text-brand-500">2024</p>
+        <h3 class="mt-4 text-2xl text-ink">Money Makeover Challenge</h3>
+        <p class="mt-3 leading-relaxed text-ink-soft">
+          Our debaters competed in the 2024 Money Makeover Challenge, a financial-literacy debate run by iDebate Rwanda and the BK Foundation.
+        </p>
+        <a href={money.url} class="link-arrow mt-auto pt-6 text-sm" rel="noopener" target="_blank">Read on KT Press <Fragment set:html={arrow} /></a>
+      </article>
+    </div>
+  </section>
+
+  <!-- Mentorship -->
+  <section id="mentorship" class="relative isolate overflow-hidden bg-brand-950 py-24 text-white md:py-32">
+    <div class="container-x grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+      <div>
+        <SectionHeading
+          eyebrow="Mentorship"
+          title="Women who inspire"
+          intro="In May 2025, alumnae of Imbuto Foundation's Best Performing Girls programme came to LNDC to share their journeys with our students in the Great Hall."
+          dark
+        />
+        <p class="mt-5 text-lg leading-relaxed text-brand-100/85" data-reveal>
+          Back in April 2013, LNDC hosted Rwanda's Girls in ICT Day, when about 100 students from six Kigali schools met women leaders in technology.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-x-8 gap-y-3" data-reveal>
+          <a href={visit.url} class="link-arrow !text-brand-200 hover:!text-white" rel="noopener" target="_blank">2025 visit photos <Fragment set:html={arrow} /></a>
+          <a href={ict.url} class="link-arrow !text-brand-200 hover:!text-white" rel="noopener" target="_blank">Girls in ICT Day <Fragment set:html={arrow} /></a>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4" data-stagger>
+        <Photo photo={photos.hallAudience} class="col-span-2 [&_img]:aspect-[16/10] [&_img]:rounded-3xl" sizes="(min-width: 1024px) 45vw, 100vw" />
+        <Photo photo={photos.classApplause} class="[&_img]:aspect-square [&_img]:rounded-3xl" sizes="(min-width: 1024px) 22vw, 50vw" />
+        <Photo photo={photos.classSmile} class="[&_img]:aspect-square [&_img]:rounded-3xl" sizes="(min-width: 1024px) 22vw, 50vw" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Celebrations -->
+  <section id="celebrations" class="container-x py-24 md:py-32">
+    <div class="grid items-center gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
+      <div>
+        <SectionHeading
+          eyebrow="Celebrations"
+          title="Inkubito y'Icyeza"
+          intro="On 5 June 2026, LNDC hosted Imbuto Foundation's ceremony honouring the Best Performing Girls, known in Kinyarwanda as Inkubito y'Icyeza, filling the Great Hall with pride."
+        />
+        <a href={awards.url} class="link-arrow mt-7" rel="noopener" target="_blank" data-reveal>Ceremony photos <Fragment set:html={arrow} /></a>
+      </div>
+      <div class="grid grid-cols-2 gap-4" data-stagger>
+        <Photo photo={photos.bpgSign} class="row-span-2 [&_img]:h-full [&_img]:rounded-3xl" sizes="(min-width: 1024px) 27vw, 50vw" />
+        <Photo photo={photos.bpgStudents} class="[&_img]:aspect-[4/3] [&_img]:rounded-3xl" sizes="(min-width: 1024px) 27vw, 50vw" />
+        <Photo photo={photos.bpgCrowd} class="[&_img]:aspect-[4/3] [&_img]:rounded-3xl" sizes="(min-width: 1024px) 27vw, 50vw" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Remembrance link -->
+  <section class="container-x pb-8">
+    <a href="/about#remembrance" class="group grid items-center gap-8 overflow-hidden rounded-[1.75rem] bg-brand-50 ring-1 ring-brand-100 md:grid-cols-[1fr_1.4fr]" data-reveal>
+      <Photo photo={photos.kwibukaSilence} class="h-full [&_img]:aspect-[16/10] md:[&_img]:aspect-auto" sizes="(min-width: 768px) 40vw, 100vw" />
+      <div class="px-8 pb-10 md:py-10 md:pr-12">
+        <p class="eyebrow">Kwibuka</p>
+        <h2 class="mt-3 text-[clamp(1.8rem,3vw,2.5rem)] text-ink">Remembering together</h2>
+        <p class="mt-3 text-lg leading-relaxed text-ink-soft">Kwibuka brings the whole community together to honour the victims of the 1994 Genocide against the Tutsi.</p>
+        <span class="link-arrow mt-6">
+          Read more
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </div>
+    </a>
+  </section>
+
+  <CTA />
+</Base>

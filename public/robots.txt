@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lndc.rw/sitemap-index.xml

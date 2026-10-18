@@ -1,0 +1,167 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+
+interface Props {
+  /** Pages with a dark photo hero start with a transparent, white header. */
+  overlay?: boolean;
+}
+const { overlay = false } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header
+  id="site-header"
+  data-overlay={overlay ? 'true' : 'false'}
+  class="group/header fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,color] duration-300"
+>
+  <div class="container-x flex h-20 items-center justify-between gap-6">
+    <a href="/" class="flex items-center gap-3">
+      <Logo class="h-11 w-auto text-brand-500 transition-colors duration-300 header-logo" title="" />
+      <span class="leading-tight">
+        <span class="block font-display text-[1.08rem] font-semibold tracking-tight header-title">Lycée Notre-Dame de Cîteaux</span>
+        <span class="block text-[0.7rem] font-semibold uppercase tracking-[0.18em] header-sub">Kigali · Rwanda</span>
+      </span>
+    </a>
+
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={path === item.href ? 'page' : undefined}
+                class="nav-link relative rounded-full px-3.5 py-2 text-[0.93rem] font-semibold transition-colors"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="ml-3">
+          <a href="/contact" class="btn btn-primary !py-2.5 !text-[0.9rem]">Contact us</a>
+        </li>
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      id="menu-open"
+      class="menu-btn -mr-2 rounded-full p-2.5 lg:hidden"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Open menu"
+    >
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h10"></path>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div id="mobile-menu" class="fixed inset-0 z-[60] hidden lg:hidden" role="dialog" aria-modal="true" aria-label="Menu" data-lenis-prevent>
+  <div class="menu-backdrop absolute inset-0 bg-brand-950/50 backdrop-blur-sm" data-close></div>
+  <div class="menu-panel absolute inset-y-0 right-0 flex w-[min(22rem,88vw)] flex-col bg-white px-6 pb-8 pt-5 shadow-2xl">
+    <div class="flex items-center justify-between">
+      <Logo class="h-10 w-auto text-brand-500" title="" />
+      <button type="button" class="rounded-full p-2.5 text-ink hover:bg-brand-50" data-close aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <ul class="mt-8 space-y-1">
+      <li><a href="/" class="mobile-link" aria-current={path === '/' ? 'page' : undefined}>Home</a></li>
+      {
+        nav.map((item) => (
+          <li>
+            <a href={item.href} class="mobile-link" aria-current={path === item.href ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+      <li><a href="/contact" class="mobile-link" aria-current={path === '/contact' ? 'page' : undefined}>Contact</a></li>
+    </ul>
+    <div class="mt-auto rounded-2xl bg-brand-50 p-5 text-sm text-ink-soft">
+      <p class="font-semibold text-ink">Write to us</p>
+      <a href="mailto:info@lndc.rw" class="mt-1 block font-semibold text-brand-700">info@lndc.rw</a>
+      <a href="tel:+250788465767" class="mt-1 block font-semibold text-brand-700">+250 788 465 767</a>
+      <p class="mt-1">P.O. Box 607, Kigali, Rwanda</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  #site-header {
+    color: var(--color-ink);
+    background: rgb(255 255 255 / 0.92);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 rgb(10 37 64 / 0.07);
+  }
+  #site-header[data-overlay='true']:not(.is-scrolled) {
+    color: #fff;
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  #site-header[data-overlay='true']:not(.is-scrolled) .header-logo { color: #fff; }
+  #site-header[data-overlay='true']:not(.is-scrolled) .header-sub { color: rgb(255 255 255 / 0.75); }
+  #site-header[data-overlay='true']:not(.is-scrolled) .nav-link:hover { background: rgb(255 255 255 / 0.14); }
+  #site-header[data-overlay='true']:not(.is-scrolled) .btn-primary { background: #fff; color: var(--color-brand-800); box-shadow: none; }
+  .header-sub { color: var(--color-brand-600); }
+  .nav-link:hover { background: var(--color-brand-50); }
+  .nav-link[aria-current='page']::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.1rem;
+    width: 0.5rem;
+    height: 0.42rem;
+    translate: -50% 0;
+    background: currentColor;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+  .menu-btn:hover { background: rgb(127 127 127 / 0.12); }
+  .mobile-link {
+    display: block;
+    border-radius: 0.9rem;
+    padding: 0.8rem 1rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 560;
+    color: var(--color-ink);
+  }
+  .mobile-link:hover, .mobile-link[aria-current='page'] { background: var(--color-brand-50); color: var(--color-brand-700); }
+  #mobile-menu.is-open { display: block; }
+  #mobile-menu.is-open .menu-panel { animation: slide-in 0.35s var(--ease-out-soft); }
+  #mobile-menu.is-open .menu-backdrop { animation: fade-in 0.3s ease; }
+  @keyframes slide-in { from { transform: translateX(100%); } }
+  @keyframes fade-in { from { opacity: 0; } }
+  @media (max-width: 420px) {
+    .header-title { font-size: 0.95rem; }
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 24);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const menu = document.getElementById('mobile-menu')!;
+  const openBtn = document.getElementById('menu-open')!;
+  const setOpen = (open: boolean) => {
+    menu.classList.toggle('is-open', open);
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) menu.querySelector<HTMLElement>('[data-close]:not(.menu-backdrop)')?.focus();
+    else openBtn.focus();
+  };
+  openBtn.addEventListener('click', () => setOpen(true));
+  menu.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
+  });
+</script>

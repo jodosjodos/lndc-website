@@ -1,0 +1,46 @@
+---
+import { stats } from '../data/achievements';
+import { byId } from '../data/press';
+---
+
+<section class="relative isolate overflow-hidden bg-gradient-to-br from-brand-800 via-brand-700 to-brand-500 py-20 text-white md:py-24">
+  <svg class="absolute -left-20 bottom-0 -z-10 h-[130%] w-auto text-white/[0.06]" viewBox="0 0 100 88" aria-hidden="true">
+    <path d="M50 2 L98 86 L2 86 Z" fill="currentColor"></path>
+  </svg>
+  <div class="container-x">
+    <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div class="on-dark max-w-2xl">
+        <p class="eyebrow" data-reveal>Results that speak</p>
+        <h2 class="mt-4 text-[clamp(2rem,4vw,3.2rem)] text-white" data-split>Among the best in Rwanda, year after year</h2>
+      </div>
+      <a href="/news" class="link-arrow !text-white" data-reveal>
+        See the news
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+
+    <dl class="mt-14 grid gap-px overflow-hidden rounded-3xl bg-white/15 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+      {
+        stats.map((s) => {
+          const src = byId(s.source);
+          return (
+            <div class="flex flex-col bg-brand-800/40 p-7 backdrop-blur-sm">
+              <dt class="order-2 mt-3 text-lg font-semibold leading-snug">{s.label}</dt>
+              <dd class="order-1 font-display text-[clamp(3rem,5vw,4.2rem)] font-[480] leading-none tracking-tight">
+                {'prefix' in s && <span class="text-brand-200">{s.prefix}</span>}
+                <span data-counter={s.value}>{s.value}</span>
+                {'suffix' in s && <span class="text-brand-200">{s.suffix}</span>}
+              </dd>
+              <dd class="order-3 mt-2 text-sm text-brand-100/80">{s.detail}</dd>
+              <dd class="order-4 mt-auto pt-5 text-xs">
+                <a href={src.url} class="text-brand-100/70 underline underline-offset-2 hover:text-white" rel="noopener" target="_blank">
+                  Source: {src.outlet}
+                </a>
+              </dd>
+            </div>
+          );
+        })
+      }
+    </dl>
+  </div>
+</section>

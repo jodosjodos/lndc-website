@@ -1,0 +1,31 @@
+---
+import { logo } from './logo-paths';
+
+interface Props {
+  class?: string;
+  title?: string;
+}
+const { class: className = '', title = 'Lycée Notre-Dame de Cîteaux logo' } = Astro.props;
+// Each instance needs its own mask id, or the second logo on a page reuses the first one's mask.
+const maskId = `lndc-pages-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<svg
+  class={className}
+  viewBox="-8 -4 256 228"
+  fill="currentColor"
+  {...title ? { role: 'img', 'aria-label': title } : { 'aria-hidden': 'true' }}
+>
+  <defs>
+    <mask id={maskId}>
+      <rect x="-8" y="-4" width="256" height="228" fill="#fff"></rect>
+      {logo.pageLines.map((d) => <path d={d} stroke="#000" stroke-width="2.6" fill="none" stroke-linecap="round" />)}
+    </mask>
+  </defs>
+  <path d={logo.triangle} fill="none" stroke="currentColor" stroke-width="9" stroke-linejoin="round"></path>
+  <path d={logo.letters}></path>
+  <g mask={`url(#${maskId})`}>
+    <path d={logo.bookLeft}></path>
+    <path d={logo.bookRight}></path>
+  </g>
+</svg>

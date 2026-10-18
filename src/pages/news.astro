@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { photos } from '../data/photos';
+import { sources } from '../data/press';
+
+const sorted = [...sources].sort((a, b) => b.date.localeCompare(a.date));
+const years = [...new Set(sorted.map((s) => s.date.slice(0, 4)))];
+---
+
+<Base
+  title="In the News"
+  description="Lycée Notre-Dame de Cîteaux in Rwanda's press: national exam results, competitions, visits and celebrations."
+  overlayHeader
+>
+  <PageHero
+    eyebrow="In the news"
+    title="LNDC in the headlines"
+    intro="Results, competitions, visits and celebrations, as reported by Rwanda's press and our partners. Every story links to its original source."
+    photo={photos.bpgStudents}
+  />
+
+  <section class="container-x py-24 md:py-32">
+    {
+      years.map((year) => (
+        <div class="mb-20 grid gap-8 last:mb-0 lg:grid-cols-[10rem_1fr] lg:gap-12">
+          <h2 class="font-display text-5xl text-brand-500 lg:sticky lg:top-28 lg:self-start" data-reveal>{year}</h2>
+          <div class="grid gap-5 md:grid-cols-2" data-stagger>
+            {sorted.filter((s) => s.date.startsWith(year)).map((item) => <NewsCard item={item} />)}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+</Base>

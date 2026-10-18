@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+---
+
+<Base title="Page not found" description="This page could not be found.">
+  <section class="container-x flex min-h-[80svh] flex-col items-center justify-center pb-16 pt-32 text-center">
+    <Logo class="h-28 w-auto text-brand-500" title="" />
+    <p class="mt-10 font-display text-7xl text-brand-600">404</p>
+    <h1 class="mt-4 text-[clamp(2rem,4vw,3rem)] text-ink">This page isn't here</h1>
+    <p class="mt-4 max-w-md text-lg text-ink-soft">The page you were looking for may have moved. Let's get you back on track.</p>
+    <div class="mt-9 flex flex-wrap justify-center gap-3">
+      <a href="/" class="btn btn-primary">Back to home</a>
+      <a href="/contact" class="btn btn-outline">Contact us</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,138 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/plus-jakarta-sans';
+
+@theme {
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* One hue only: the sky blue of the LNDC logo (#0A96EE), plus white. */
+  --color-brand-50: #f0f8fe;
+  --color-brand-100: #ddf0fd;
+  --color-brand-200: #b6e0fb;
+  --color-brand-300: #7cc8f7;
+  --color-brand-400: #39adf3;
+  --color-brand-500: #0a96ee;
+  --color-brand-600: #0679c7;
+  --color-brand-700: #0a5f9c;
+  --color-brand-800: #0d4c7c;
+  --color-brand-900: #0e3a5e;
+  --color-brand-950: #0a2540;
+  --color-ink: #0a2540;
+  --color-ink-soft: #46607a;
+  --color-paper: #ffffff;
+  --color-mist: #f4f9fd;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-kenburns: kenburns 14s ease-out both;
+
+  @keyframes kenburns {
+    from { transform: scale(1.12); }
+    to { transform: scale(1); }
+  }
+}
+
+@layer base {
+  html {
+    color: var(--color-ink);
+    background: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background: var(--color-paper);
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 560;
+    letter-spacing: -0.015em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+  ::selection { background: var(--color-brand-200); color: var(--color-ink); }
+  :focus-visible {
+    outline: 3px solid var(--color-brand-500);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand-600);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 0.7rem;
+    height: 0.62rem;
+    background: currentColor;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+  .on-dark .eyebrow, .eyebrow.on-dark { color: var(--color-brand-300); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border-radius: 999px;
+    padding: 0.85rem 1.5rem;
+    font-weight: 650;
+    font-size: 0.95rem;
+    transition: background-color 0.25s, color 0.25s, transform 0.25s var(--ease-out-soft), box-shadow 0.25s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary { background: var(--color-brand-600); color: #fff; box-shadow: 0 10px 30px -12px rgb(6 121 199 / 0.7); }
+  .btn-primary:hover { background: var(--color-brand-700); }
+  .btn-light { background: #fff; color: var(--color-brand-800); }
+  .btn-light:hover { background: var(--color-brand-50); }
+  .btn-ghost { color: #fff; box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.55); }
+  .btn-ghost:hover { background: rgb(255 255 255 / 0.12); }
+  .btn-outline { color: var(--color-brand-700); box-shadow: inset 0 0 0 1.5px var(--color-brand-300); }
+  .btn-outline:hover { background: var(--color-brand-50); }
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 650;
+    color: var(--color-brand-700);
+  }
+  .link-arrow svg { transition: transform 0.3s var(--ease-out-soft); }
+  .link-arrow:hover svg { transform: translateX(4px); }
+  .prose-lndc p + p { margin-top: 1.1em; }
+  .prose-lndc a { color: var(--color-brand-700); text-decoration: underline; text-underline-offset: 3px; }
+}
+
+/* Hidden only while motion.ts is expected to run; the head script adds .no-motion as a failsafe. */
+.js:not(.no-motion) [data-reveal] { opacity: 0; }
+.js:not(.no-motion) [data-split] { visibility: hidden; }
+
+@view-transition { navigation: auto; }
+::view-transition-old(root) { animation: 0.28s ease both vt-out; }
+::view-transition-new(root) { animation: 0.42s var(--ease-out-soft) both vt-in; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

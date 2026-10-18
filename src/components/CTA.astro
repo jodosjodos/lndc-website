@@ -1,0 +1,27 @@
+---
+interface Props {
+  title?: string;
+  text?: string;
+}
+const {
+  title = 'Join the LNDC family',
+  text = 'Places in Senior One and Senior Four are allocated nationally by NESA. Find out how admission works, or write to the school office with your questions.',
+} = Astro.props;
+---
+
+<section class="container-x py-20 md:py-28">
+  <div class="relative isolate overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-600 via-brand-500 to-brand-400 px-7 py-16 text-white md:px-16 md:py-20" data-reveal>
+    <svg class="absolute -right-10 -top-16 -z-10 h-[150%] w-auto text-white/10" viewBox="0 0 100 88" aria-hidden="true">
+      <path d="M50 2 L98 86 L2 86 Z" fill="none" stroke="currentColor" stroke-width="2"></path>
+      <path d="M50 22 L84 80 L16 80 Z" fill="none" stroke="currentColor" stroke-width="1.2"></path>
+    </svg>
+    <div class="max-w-2xl">
+      <h2 class="text-[clamp(2.1rem,4.5vw,3.6rem)] text-white">{title}</h2>
+      <p class="mt-5 text-lg leading-relaxed text-white/90">{text}</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="/admissions" class="btn btn-light">How admission works</a>
+        <a href="mailto:info@lndc.rw" class="btn btn-ghost">info@lndc.rw</a>
+      </div>
+    </div>
+  </div>
+</section>
