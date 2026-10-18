@@ -1,4 +1,5 @@
 # Goes in /opt/mailcow-dockerized/ — merge with any override file already there.
+# The whole folder is mounted (not just `current`) so the release symlink resolves inside the container.
 services:
   nginx-mailcow:
     volumes:

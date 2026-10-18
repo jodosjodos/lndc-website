@@ -39,11 +39,29 @@ Add an entry at the top of `sources` in `src/data/press.ts` (`date` can be `YYYY
 
 ## Deploying
 
-The site is served by Mailcow's nginx on the mail VPS. Config files are in `deploy/`.
+Every push to `main` deploys automatically (`.github/workflows/deploy.yml`):
+
+1. GitHub Actions runs `npm ci`, `astro check` and `astro build`. Any error stops here and the live site is untouched.
+2. The built `dist/` is uploaded with rsync to `/srv/lndc-website/releases/<commit>/` on the VPS. Only changed files are sent.
+3. The `current` symlink is switched to the new release in one step, so visitors never see a half-updated site.
+4. The workflow checks that the live site is serving the new commit. The last 5 releases are kept.
+
+Pull requests are built and checked, never deployed. You can redeploy from the Actions tab with "Run workflow".
+
+Mailcow's nginx serves `/srv/lndc-website/current`. Server files live in `deploy/`:
+
+| File | On the VPS |
+| --- | --- |
+| `deploy/lndc-deploy.sh` | `/usr/local/bin/lndc-deploy`, the only command the deploy key may run |
+| `deploy/lndc-website.conf` | `/opt/mailcow-dockerized/data/conf/nginx/lndc-website.conf` |
+| `deploy/docker-compose.override.yml` | merged into `/opt/mailcow-dockerized/docker-compose.override.yml` |
+
+GitHub settings the workflow needs: repository variables `DEPLOY_HOST`, `DEPLOY_USER` (and `DEPLOY_PORT` if SSH isn't on 22); `production` environment secrets `DEPLOY_SSH_KEY` and `DEPLOY_KNOWN_HOSTS`. Until `DEPLOY_HOST` exists, the deploy job is skipped.
+
+### Rolling back
 
 ```bash
-npm run build
-rsync -avz --delete dist/ root@161.97.105.231:/srv/lndc-website/
+ssh -i ~/.ssh/lndc_deploy deploy@161.97.105.231 rollback
 ```
 
-No restart is needed after an rsync: nginx serves the new files immediately.
+`ssh -i ~/.ssh/lndc_deploy deploy@161.97.105.231 status` shows the live release and the ones kept.

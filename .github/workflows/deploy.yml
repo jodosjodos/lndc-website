@@ -1,0 +1,100 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['README.md', 'deploy/**']
+  pull_request:
+  workflow_dispatch:
+
+# One deploy at a time; a newer push waits instead of cancelling a deploy half-way.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # Restored after `npm ci`, which wipes node_modules. Saves re-optimising every photo.
+      - name: Cache optimised images
+        uses: actions/cache@v6
+        with:
+          path: node_modules/.astro
+          key: astro-images-${{ hashFiles('src/assets/**', 'package-lock.json') }}
+          restore-keys: astro-images-
+
+      - run: npx astro check
+
+      - run: npm run build
+        env:
+          PUBLIC_COMMIT: ${{ github.sha }}
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: dist
+          retention-days: 7
+
+  deploy:
+    needs: build
+    # Skipped until the DEPLOY_HOST repository variable exists, so pushes before the VPS is ready stay green.
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.DEPLOY_HOST != ''
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://lndc.rw
+    env:
+      HOST: ${{ vars.DEPLOY_HOST }}
+      PORT: ${{ vars.DEPLOY_PORT || '22' }}
+      RELEASE: ${{ github.sha }}
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: site
+          path: dist
+
+      - name: Set up SSH
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf 'Host deploy-target\n  HostName %s\n  Port %s\n  IdentitiesOnly yes\n  StrictHostKeyChecking yes\n' "$HOST" "$PORT" > ~/.ssh/config
+
+      - name: Prepare release
+        run: ssh "${{ vars.DEPLOY_USER }}@deploy-target" "prepare $RELEASE"
+
+      # --checksum: artifact downloads lose file times, so compare contents; only changed files travel.
+      - name: Upload release
+        run: rsync -rlzc --delete -p --chmod=D755,F644 -e ssh dist/ "${{ vars.DEPLOY_USER }}@deploy-target:$RELEASE/"
+
+      - name: Go live
+        run: ssh "${{ vars.DEPLOY_USER }}@deploy-target" "activate $RELEASE"
+
+      # -k and --resolve: works before DNS points at the VPS and before the certificate covers lndc.rw.
+      - name: Check the live site serves this release
+        run: |
+          for i in 1 2 3 4 5; do
+            if curl -fsSk --resolve "lndc.rw:443:$HOST" https://lndc.rw/ | grep -q "content=\"$RELEASE\""; then
+              echo "lndc.rw is serving $RELEASE"; exit 0
+            fi
+            sleep 3
+          done
+          echo "lndc.rw is not serving $RELEASE" >&2
+          exit 1
