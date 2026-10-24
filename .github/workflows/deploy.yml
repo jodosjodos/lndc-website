@@ -60,6 +60,8 @@ jobs:
       HOST: ${{ vars.DEPLOY_HOST }}
       PORT: ${{ vars.DEPLOY_PORT || '22' }}
       RELEASE: ${{ github.sha }}
+      # Public by design: search engines fetch https://lndc.rw/<key>.txt to confirm we own the site.
+      INDEXNOW_KEY: e70ff69379333d9fd353e333929cc47d
     steps:
       - uses: actions/download-artifact@v8
         with:
@@ -98,3 +100,13 @@ jobs:
           done
           echo "lndc.rw is not serving $RELEASE" >&2
           exit 1
+
+      # Bing, Yandex and other IndexNow engines re-crawl changed pages within minutes. Google ignores IndexNow.
+      - name: Ping IndexNow
+        continue-on-error: true
+        run: |
+          urls=$(grep -o '<loc>[^<]*' dist/sitemap-0.xml | sed 's/<loc>//' | jq -R . | jq -sc .)
+          curl -fsS -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"lndc.rw\",\"key\":\"$INDEXNOW_KEY\",\"keyLocation\":\"https://lndc.rw/$INDEXNOW_KEY.txt\",\"urlList\":$urls}" \
+            -w 'IndexNow: HTTP %{http_code}\n'

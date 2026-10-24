@@ -11,6 +11,13 @@ export const school = {
   city: 'Kigali, Rwanda',
   area: 'Kiyovu, Nyarugenge District',
   x: { handle: '@LCiteaux', url: 'https://x.com/LCiteaux' },
+  // Spellings people type into search, with and without accents.
+  alternateNames: ['LNDC', 'Lycee Notre Dame de Citeaux', 'Lycée Notre Dame de Cîteaux', 'Notre Dame de Citeaux Secondary School'],
+  profiles: [
+    'https://x.com/LCiteaux',
+    'https://rw.wikipedia.org/wiki/Lyc%C3%A9e_Notre-Dame_de_C%C3%AEteaux',
+    'https://www.wikidata.org/wiki/Q106648211',
+  ],
   geo: { lat: -1.9545042, lon: 30.0600872 },
 } as const;
 

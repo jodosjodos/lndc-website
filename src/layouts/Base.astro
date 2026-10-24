@@ -13,29 +13,47 @@ interface Props {
 }
 
 const { title, description = school.description, overlayHeader = false, image = '/og.jpg' } = Astro.props;
-const fullTitle = title ? `${title} · ${school.name}` : `${school.name} · Girls' secondary school in Kigali`;
+const fullTitle = title ? `${title} · ${school.name}` : `${school.name} (LNDC) · Girls' secondary school in Kigali, Rwanda`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 
+// One graph: the WebSite gives Google the site name; the school carries every spelling people search for.
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'HighSchool',
-  name: school.name,
-  alternateName: school.short,
-  url: 'https://lndc.rw',
-  logo: 'https://lndc.rw/icon-512.png',
-  email: school.email,
-  telephone: school.phone.display,
-  description: school.description,
-  address: {
-    '@type': 'PostalAddress',
-    postOfficeBoxNumber: '607',
-    addressLocality: 'Kigali',
-    addressRegion: 'Nyarugenge',
-    addressCountry: 'RW',
-  },
-  geo: { '@type': 'GeoCoordinates', latitude: school.geo.lat, longitude: school.geo.lon },
-  sameAs: [school.x.url],
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://lndc.rw/#website',
+      url: 'https://lndc.rw/',
+      name: school.name,
+      alternateName: ['LNDC', 'Lycée Notre Dame de Cîteaux'],
+      inLanguage: 'en',
+      publisher: { '@id': 'https://lndc.rw/#school' },
+    },
+    {
+      '@type': 'HighSchool',
+      '@id': 'https://lndc.rw/#school',
+      name: school.name,
+      alternateName: school.alternateNames,
+      url: 'https://lndc.rw/',
+      logo: 'https://lndc.rw/icon-512.png',
+      image: 'https://lndc.rw/og.jpg',
+      email: school.email,
+      telephone: school.phone.display,
+      description: school.description,
+      slogan: `${school.motto.rw} (${school.motto.en})`,
+      address: {
+        '@type': 'PostalAddress',
+        postOfficeBoxNumber: '607',
+        addressLocality: 'Kigali',
+        addressRegion: 'Nyarugenge',
+        addressCountry: 'RW',
+      },
+      geo: { '@type': 'GeoCoordinates', latitude: school.geo.lat, longitude: school.geo.lon },
+      hasMap: `https://www.google.com/maps/search/?api=1&query=${school.geo.lat}%2C${school.geo.lon}`,
+      sameAs: school.profiles,
+    },
+  ],
 };
 ---
 
