@@ -7,8 +7,11 @@ import StatBand from '../components/StatBand.astro';
 import ValueGrid from '../components/ValueGrid.astro';
 import NewsCard from '../components/NewsCard.astro';
 import CTA from '../components/CTA.astro';
+import Voices from '../components/Voices.astro';
+import { Image } from 'astro:assets';
+import agathe from '../assets/photos/agathe-uwilingiyimana.png';
 import { photos } from '../data/photos';
-import { combinations } from '../data/site';
+import { streams } from '../data/site';
 import { sources, references } from '../data/press';
 
 const facts = [
@@ -60,8 +63,11 @@ const latest = sources.filter((s) => s.kind === 'article').slice(0, 3);
         </div>
       </div>
       <div class="absolute -bottom-8 right-4 w-[min(20rem,78%)] rounded-3xl bg-white p-6 shadow-[0_30px_70px_-30px_rgb(10_37_64/0.5)] sm:-right-6" data-reveal>
-        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Alumna</p>
-        <p class="mt-2 font-display text-xl leading-snug text-ink">Agathe Uwilingiyimana, Rwanda's first woman Prime Minister, spent seven years at LNDC.</p>
+        <div class="flex items-center gap-4">
+          <Image src={agathe} alt="Portrait of Agathe Uwilingiyimana" widths={[96, 192]} sizes="96px" class="h-20 w-20 shrink-0 rounded-2xl object-cover object-[50%_20%]" />
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Alumna<span class="mt-1 block font-display text-lg normal-case tracking-normal text-ink">Agathe Uwilingiyimana</span></p>
+        </div>
+        <p class="mt-4 font-display text-lg leading-snug text-ink">Rwanda's first woman Prime Minister spent seven years at LNDC.</p>
         <a href={references.agathe} class="mt-3 inline-block text-xs text-ink-soft underline underline-offset-2" rel="noopener" target="_blank">Source: Wikipedia</a>
       </div>
     </div>
@@ -121,7 +127,7 @@ const latest = sources.filter((s) => s.kind === 'article').slice(0, 3);
             <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Advanced Level</p>
             <p class="mt-2 font-display text-2xl text-ink">Senior 4–6</p>
             <div class="mt-3 flex flex-wrap gap-1.5">
-              {combinations.map((c) => <span class="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700" title={c.name}>{c.code}</span>)}
+              {streams.map((st) => <span class="rounded-full bg-brand-50 px-2.5 py-1 text-xs font-bold text-brand-700" title={st.subjects.join(', ')}>{st.name}</span>)}
             </div>
           </div>
         </div>
@@ -160,6 +166,8 @@ const latest = sources.filter((s) => s.kind === 'article').slice(0, 3);
       }
     </div>
   </section>
+
+  <Voices />
 
   <!-- Story -->
   <section class="relative isolate overflow-hidden bg-brand-950 py-24 text-white md:py-32">

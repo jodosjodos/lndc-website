@@ -18,7 +18,7 @@ Static website built with [Astro](https://astro.build), Tailwind CSS, GSAP and L
 
 | To change… | Edit |
 | --- | --- |
-| Contact details, motto, head teacher, values, A-Level combinations | `src/data/site.ts` |
+| Contact details, motto, head teacher, values, A-Level streams | `src/data/site.ts` |
 | Results band and the About timeline | `src/data/achievements.ts` |
 | News items and every source link | `src/data/press.ts` |
 | Photos, captions and credits | `src/data/photos.ts` (put image files in `src/assets/photos/`) |

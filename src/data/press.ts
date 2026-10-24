@@ -136,6 +136,8 @@ export const references = {
   nesaList: 'https://www.nesa.gov.rw/index.php?eID=dumpFile&t=f&f=107850&token=bdc15b35260d2854f25bc9b415afc7f163fe0f13',
   nesaPlacement: 'https://www.nesa.gov.rw/online-services/nesa-conducts-onsite-visits-to-boarding-schools-nationwide-for-fair-placement',
   nesaLaw: 'https://www.ktpress.rw/2023/09/nesa-warns-head-teachers-on-students-placement/',
+  pathways: 'https://www.mineduc.gov.rw/news-detail/rwanda-introduces-new-a-level-learning-pathways-in-general-education',
+  streams: 'https://www.africa-press.net/rwanda/culture-and-art/reb-unpacks-three-learning-pathways-for-students',
   agathe: 'https://en.wikipedia.org/wiki/Agathe_Uwilingiyimana',
   agatheNewTimes: 'https://www.newtimes.co.rw/article/4677/news/rwanda/agathe-uwilingiyimana-a-hero-whose-entire-political-career-had-seen-constant-threats',
   helene: 'https://en.wikipedia.org/wiki/Helene_Nayituriki',

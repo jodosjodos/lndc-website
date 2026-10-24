@@ -1,0 +1,54 @@
+---
+import SectionHeading from './SectionHeading.astro';
+import { voices } from '../data/voices';
+import { byId } from '../data/press';
+
+const initials = (name: string) =>
+  name
+    .replace(/^(Sr\.|The)\s+/, '')
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('');
+---
+
+<section class="relative isolate overflow-hidden py-24 md:py-32">
+  <div class="pointer-events-none absolute -left-24 top-10 -z-10 h-80 w-80 rounded-full border border-brand-100" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -right-20 top-0 -z-10 h-72 w-72 rounded-full bg-brand-50" aria-hidden="true"></div>
+  <div class="container-x">
+    <SectionHeading
+      eyebrow="In their own words"
+      title="Voices of LNDC"
+      intro="What students, leaders and Rwanda’s press have said about our school, each linked to where it was first published."
+      align="center"
+      class="mb-16"
+    />
+    <div class="grid gap-5 md:grid-cols-3" data-stagger>
+      {
+        voices.map((v) => {
+          const src = byId(v.source);
+          return (
+            <figure class="flex flex-col rounded-3xl bg-white p-8 ring-1 ring-brand-100">
+              <svg class="h-8 w-8 text-brand-400" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                <path d="M13 8c-4.4 1.4-7 5-7 10v6h8v-8H9.6c.3-2.7 1.8-4.6 4.4-5.6L13 8Zm13 0c-4.4 1.4-7 5-7 10v6h8v-8h-4.4c.3-2.7 1.8-4.6 4.4-5.6L26 8Z" />
+              </svg>
+              <blockquote class="mt-5 flex-1 text-lg leading-relaxed text-ink">{v.quote}</blockquote>
+              <figcaption class="mt-8 flex items-center gap-4">
+                <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-brand-600 font-display text-lg text-white" aria-hidden="true">
+                  {initials(v.name)}
+                </span>
+                <span>
+                  <span class="block font-display text-lg font-semibold leading-tight text-ink">{v.name}</span>
+                  <span class="block text-sm text-ink-soft">{v.role}</span>
+                  <a href={src.url} rel="noopener" target="_blank" class="mt-1 inline-block text-xs text-brand-700 underline underline-offset-2">
+                    {src.outlet}
+                  </a>
+                </span>
+              </figcaption>
+            </figure>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>

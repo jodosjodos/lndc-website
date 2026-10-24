@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import { photos } from '../data/photos';
-import { combinations, school } from '../data/site';
+import { streams, school } from '../data/site';
 import { references } from '../data/press';
 
 const steps = [
@@ -30,8 +30,8 @@ const faqs = [
   { q: 'Is LNDC a boarding school?', a: 'Yes. Our students board on campus in Kiyovu, Nyarugenge District, Kigali.' },
   { q: 'Which levels do you offer?', a: 'Both Ordinary Level (Senior 1 to 3) and Advanced Level (Senior 4 to 6).' },
   {
-    q: 'Which A-Level combinations are available?',
-    a: `${combinations.map((c) => `${c.code} (${c.name})`).join(', ')}, as listed by NESA.`,
+    q: 'Which A-Level streams are available?',
+    a: `LNDC teaches the Mathematics and Sciences pathway in two streams: ${streams.map((st) => `${st.name} (${st.subjects.join(', ')})`).join(' and ')}. Since September 2025 these replace the former MCB, PCB, PCM and MPG combinations.`,
   },
   {
     q: 'Can the school admit a student directly into S1 or S4?',

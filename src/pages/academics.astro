@@ -6,7 +6,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import StatBand from '../components/StatBand.astro';
 import CTA from '../components/CTA.astro';
 import { photos } from '../data/photos';
-import { combinations } from '../data/site';
+import { pathway, streams } from '../data/site';
 import { byId, formatDate, references } from '../data/press';
 
 const recognitions = ['orator-2026', 'nesa-results-2025', 'best-student-2024', 'best-students-2023', 'cmc-2025', 'money-makeover-2024'].map(byId);
@@ -14,7 +14,7 @@ const recognitions = ['orator-2026', 'nesa-results-2025', 'best-student-2024', '
 
 <Base
   title="Academics"
-  description="O-Level and A-Level at Lycée Notre-Dame de Cîteaux: the MCB, PCB, PCM and MPG combinations, results and recognitions."
+  description="O-Level and A-Level at Lycée Notre-Dame de Cîteaux: the Mathematics and Sciences pathway in Stream 1 and Stream 2, results and recognitions."
   overlayHeader
 >
   <PageHero
@@ -29,7 +29,7 @@ const recognitions = ['orator-2026', 'nesa-results-2025', 'best-student-2024', '
     <SectionHeading
       eyebrow="Two levels"
       title="A clear path from S1 to S6"
-      intro="Students build a strong general foundation at Ordinary Level, then specialise at Advanced Level in one of four science combinations."
+      intro="Students build a strong general foundation at Ordinary Level, then specialise at Advanced Level in the Mathematics and Sciences pathway."
       class="mb-14"
     />
     <div class="grid gap-5 lg:grid-cols-2" data-stagger>
@@ -53,38 +53,58 @@ const recognitions = ['orator-2026', 'nesa-results-2025', 'best-student-2024', '
         <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-300">Advanced Level</p>
         <h3 class="mt-3 text-4xl text-white">Senior 4 – Senior 6</h3>
         <p class="mt-4 max-w-lg text-lg leading-relaxed text-brand-100/85">
-          Three years of focused study in a chosen combination, leading to the A-Level national examination and on to higher education.
+          Three years in the Mathematics and Sciences pathway, in Stream 1 or Stream 2, leading to the A-Level national examination and on to higher education.
         </p>
         <ul class="mt-8 space-y-3">
           <li class="flex gap-3"><span class="mt-2 h-2 w-2 shrink-0 rotate-45 bg-brand-400"></span>Placement into S4 by NESA after the O-Level examination</li>
-          <li class="flex gap-3"><span class="mt-2 h-2 w-2 shrink-0 rotate-45 bg-brand-400"></span>Four science combinations accredited by NESA</li>
-          <li class="flex gap-3"><span class="mt-2 h-2 w-2 shrink-0 rotate-45 bg-brand-400"></span>MCB, PCB, PCM and MPG, all built on mathematics and the sciences</li>
+          <li class="flex gap-3"><span class="mt-2 h-2 w-2 shrink-0 rotate-45 bg-brand-400"></span>Stream 1: Mathematics, Physics, Chemistry, Biology</li>
+          <li class="flex gap-3"><span class="mt-2 h-2 w-2 shrink-0 rotate-45 bg-brand-400"></span>Stream 2: Mathematics, Economics, Geography, Physics</li>
         </ul>
       </article>
     </div>
   </section>
 
-  <!-- Combinations -->
+  <!-- Streams -->
   <section class="bg-mist py-24 md:py-32">
     <div class="container-x">
-      <div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-        <SectionHeading eyebrow="A-Level combinations" title="Four ways to pursue science" />
-        <a href={references.nesaList} class="text-sm text-ink-soft underline underline-offset-2 hover:text-brand-700" rel="noopener" target="_blank" data-reveal>
-          Source: NESA list of accredited schools
-        </a>
-      </div>
-      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+      <SectionHeading
+        eyebrow="A-Level · New curriculum"
+        title="Mathematics and Sciences, in two streams"
+        intro="Since September 2025, Rwanda organises A-Level into learning pathways instead of subject combinations. LNDC teaches the Mathematics and Sciences pathway in two streams."
+        align="center"
+        class="mb-14"
+      />
+      <div class="mx-auto grid max-w-5xl gap-5 md:grid-cols-2" data-stagger>
         {
-          combinations.map((c) => (
-            <article class="group flex flex-col rounded-3xl bg-white p-7 ring-1 ring-brand-100 transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgb(10_37_64/0.35)]">
-              <p class="font-display text-5xl font-[480] tracking-tight text-brand-600">{c.code}</p>
-              <h3 class="mt-5 text-xl leading-snug text-ink">{c.name}</h3>
-              <p class="mt-auto pt-6 text-sm leading-relaxed text-ink-soft">
-                <span class="font-semibold text-ink">A path towards</span> {c.path.charAt(0).toLowerCase() + c.path.slice(1)}.
-              </p>
+          streams.map((st) => (
+            <article class="flex flex-col overflow-hidden rounded-[1.75rem] bg-white ring-1 ring-brand-100">
+              <div class="flex items-baseline justify-between gap-4 bg-gradient-to-r from-brand-600 to-brand-500 px-8 py-6 text-white">
+                <h3 class="text-3xl text-white">{st.name}</h3>
+                <span class="text-right text-xs font-bold uppercase tracking-[0.14em] text-brand-100">{st.focus}</span>
+              </div>
+              <div class="flex flex-1 flex-col p-8">
+                <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Core subjects</p>
+                <ul class="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-lg text-ink">
+                  {st.subjects.map((sub) => <li class="flex items-center gap-3"><span class="h-2 w-2 shrink-0 rotate-45 bg-brand-500" />{sub}</li>)}
+                </ul>
+                <p class="mt-7 text-sm leading-relaxed text-ink-soft"><span class="font-semibold text-ink">Leads towards:</span> {st.careers}.</p>
+                <p class="mt-auto pt-6 text-xs text-ink-soft">Replaces the former {st.formerly.join(', ')} {st.formerly.length > 1 ? 'combinations' : 'combination'}.</p>
+              </div>
             </article>
           ))
         }
+      </div>
+      <div class="mx-auto mt-5 max-w-5xl rounded-[1.75rem] bg-white p-8 ring-1 ring-brand-100" data-reveal>
+        <p class="text-xs font-bold uppercase tracking-[0.16em] text-brand-600">Every A-Level student also studies</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          {pathway.languages.map((l) => <span class="rounded-full bg-brand-50 px-3.5 py-1.5 text-sm font-semibold text-brand-800">{l}</span>)}
+          {pathway.compulsory.map((c) => <span class="rounded-full bg-brand-50 px-3.5 py-1.5 text-sm font-semibold text-brand-800">{c}</span>)}
+        </div>
+        <p class="mt-6 text-sm text-ink-soft">
+          Sources:
+          <a href={references.pathways} class="underline underline-offset-2 hover:text-brand-700" rel="noopener" target="_blank">Ministry of Education</a>,
+          <a href={references.streams} class="underline underline-offset-2 hover:text-brand-700" rel="noopener" target="_blank">REB on the learning pathways</a>
+        </p>
       </div>
     </div>
   </section>

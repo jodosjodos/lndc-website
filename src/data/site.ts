@@ -41,10 +41,26 @@ export const values = [
   { rw: 'Kuba indashyikirwa', en: 'Be outstanding', note: 'Striving for excellence in all that we do.' },
 ] as const;
 
-// Source: NESA list of accredited schools in Nyarugenge District.
-export const combinations = [
-  { code: 'MCB', name: 'Mathematics, Chemistry, Biology', path: 'Medicine, pharmacy, biotechnology and the life sciences' },
-  { code: 'PCB', name: 'Physics, Chemistry, Biology', path: 'Medicine, nursing, laboratory and health sciences' },
-  { code: 'PCM', name: 'Physics, Chemistry, Mathematics', path: 'Engineering, architecture and the physical sciences' },
-  { code: 'MPG', name: 'Mathematics, Physics, Geography', path: 'Engineering, surveying, environmental and earth sciences' },
+// Since September 2025 A-Level is organised into learning pathways (MINEDUC, REB); LNDC teaches Mathematics and Sciences.
+export const pathway = {
+  name: 'Mathematics and Sciences',
+  languages: ['English', 'French', 'Kinyarwanda'],
+  compulsory: ['ICT', 'Entrepreneurship', 'Religion and Ethics', 'Physical Education and Sports', 'General Studies'],
+} as const;
+
+export const streams = [
+  {
+    name: 'Stream 1',
+    focus: 'Pure sciences',
+    subjects: ['Mathematics', 'Physics', 'Chemistry', 'Biology'],
+    formerly: ['MCB', 'PCB', 'PCM'],
+    careers: 'Doctor, engineer, pharmacist, software developer, pilot, data analyst',
+  },
+  {
+    name: 'Stream 2',
+    focus: 'Science with economics',
+    subjects: ['Mathematics', 'Economics', 'Geography', 'Physics'],
+    formerly: ['MPG'],
+    careers: 'Economist, financial analyst, GIS specialist, environmental planner',
+  },
 ] as const;
